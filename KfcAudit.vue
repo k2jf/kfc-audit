@@ -1,0 +1,96 @@
+<template>
+  <Card style="width: 90%;margin-left: 5%;margin-top: 2%">
+    <p slot="title">
+      审计日志
+    </p>
+    <div style="margin-top: 1px">
+      <span style="width: 15em;">
+        <span class="four-char">操作用户</span>
+        <Input
+          class="four-char-out"
+          placeholder="请输入用户名称"
+          v-model="searchContent"></Input>
+      </span>
+      <span style="width: 21em;margin-left: 20px">
+        <span class="four-char">操作时间</span>
+        <DatePicker
+          type="daterange"
+          class="four-char-out"
+          v-model="dateRange"></DatePicker>
+      </span>
+      <span style="width: 9em; margin-left: 20px">
+        <Button type="primary" @click.native="onSearch">查询</Button>
+        <Button style="margin-left: 5px" @click.native="onReset">重置</Button>
+      </span>
+    </div>
+    <div style="margin-top: 20px">
+      <KfcTable
+        :headers="table.headers"
+        :datas="table.dataList"
+        :total="table.total"
+        ref="table"
+        @on-page-change="onPageChange" />
+    </div>
+  </Card>
+</template>
+
+<script>
+import { Card, Input, DatePicker, Button } from 'iview'
+import KfcTable from './KfcTable'
+export default {
+  name: 'KfcAudit',
+  components: {
+    Card,
+    Input,
+    DatePicker,
+    Button,
+    KfcTable
+  },
+  data () {
+    return {
+      searchContent: '',
+      dateRange: '',
+      table: {
+        headers: [
+          { title: '操作菜单', key: 'title' },
+          { title: '操作用户', key: 'creator' },
+          { title: '操作用户IP', key: 'ip' },
+          { title: '操作时间', key: 'startDate' }
+        ],
+        dataList: [],
+        pageNo: 1,
+        pageSize: 10,
+        total: 0
+      }
+    }
+  },
+  methods: {
+    // todo 对接数据
+    onSearch () {},
+    onReset () {},
+    onPageChange () {}
+  }
+}
+</script>
+
+<style scoped>
+  .four-char {
+    display: inline-block;
+    text-align: right;
+    width: 5em;
+    margin-right: 0.5em;
+    margin-top: 3px;
+    vertical-align: text-top;
+  }
+  .four-char:after {
+    content: ' :'
+  }
+
+  .four-char-out {
+    width: calc( 100% - 6.5em );
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    width: 200px;
+  }
+</style>
