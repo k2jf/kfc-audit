@@ -12,17 +12,15 @@ wangliheng@k2data.com.cn
 ## 示例
 ```
 <template>
-  <div>
-    <Jobs></Jobs>
-  </div>
+  <KfcAudit></KfcAudit>
 </template>
 
 <script>
-import Jobs from '@/components/kfc-jobs'
-
+import KfcAudit from '@/components/kfc-audit'
 export default {
+  name: 'Audit',
   components: {
-    Jobs
+    KfcAudit
   }
 }
 </script>
