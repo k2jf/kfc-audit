@@ -49,26 +49,53 @@ export default {
   data () {
     return {
       searchContent: '',
-      dateRange: '',
+      dateRange: [],
       table: {
         headers: [
           { title: '操作菜单', key: 'title' },
           { title: '操作用户', key: 'creator' },
           { title: '操作用户IP', key: 'ip' },
-          { title: '操作时间', key: 'startDate' }
+          { title: '操作时间', key: 'updateDate' }
         ],
         dataList: [],
         pageNo: 1,
         pageSize: 10,
-        total: 0
+        total: 6
       }
     }
   },
+  mounted () {
+    this.reloadTable()
+  },
   methods: {
     // todo 对接数据
-    onSearch () {},
-    onReset () {},
-    onPageChange () {}
+    reloadTable () {
+      let param =
+        {
+          user: this.searchContent,
+          startDate: this.dateRange[0],
+          endDate: this.dateRange[1],
+          pageNo: this.table.pageNo,
+          size: this.table.pageSize
+        }
+      this.$axios.post('/audit', param).then(res => {
+        this.table.dataList = res.data
+        this.table.total = res.total
+      })
+    },
+    onSearch () {
+      this.reloadTable()
+    },
+    onReset () {
+      this.searchContent = ''
+      this.dateRange = []
+      this.reloadTable()
+    },
+    onPageChange (pageNo, pageSize) {
+      this.table.pageNo = pageNo
+      this.table.pageSize = pageSize
+      this.reloadTable()
+    }
   }
 }
 </script>
