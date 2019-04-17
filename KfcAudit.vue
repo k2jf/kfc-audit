@@ -52,10 +52,12 @@ export default {
       dateRange: [],
       table: {
         headers: [
-          { title: '操作菜单', key: 'title' },
+          { title: '操作标题', key: 'title' },
+          { title: '请求地址', key: 'requestURL' },
+          { title: '请求方式', key: 'requestMethod' },
           { title: '操作用户', key: 'creator' },
           { title: '操作用户IP', key: 'ip' },
-          { title: '操作时间', key: 'updateDate' }
+          { title: '操作时间', key: 'createDate' }
         ],
         dataList: [],
         pageNo: 1,
@@ -72,15 +74,15 @@ export default {
     reloadTable () {
       let param =
         {
-          user: this.searchContent,
-          startDate: this.dateRange[0],
-          endDate: this.dateRange[1],
+          creator: this.searchContent,
+          createStartDate: this.dateRange[0],
+          createEndDate: this.dateRange[1],
           pageNo: this.table.pageNo,
           size: this.table.pageSize
         }
-      this.$axios.post('/audit', param).then(res => {
-        this.table.dataList = res.data
-        this.table.total = res.total
+      this.$axios.get('/auditLogList', param).then(res => {
+        this.table.dataList = res.body.audiLogList
+        /* this.table.total = res.body. */
       })
     },
     onSearch () {
